@@ -21,6 +21,7 @@
     "inquirer": "^7.1.0"
   },
   "devDependencies": {
+    "git-lab-cli": "^2.0.6",
     "jest": "^25.1.0"
   }
 }
