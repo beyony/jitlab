@@ -15,13 +15,13 @@ if (!files.directoryExists('.git')) {
 const run = async () => {
   // await animate();
 
-  const issuKeyGuess = parser.parseIssueKey(branch.sync());
+  const issueKeyGuess = parser.parseIssueKey(branch.sync());
 
   const issueKey = (await inquirer.askIssueKey(issueKeyGuess)).key;
 
-  const issueData = await jira.getIssueDetails(issueKey);
+  const issueDetails = await jira.getIssueDetails(issueKey);
 
-  const mrOptions = await inquirer.askMergeRequestOptions(issueKey);
+  const mrOptions = await inquirer.askMergeRequestOptions(issueDetails);
 
   console.log(issueKey);
   console.log(mrOptions);
