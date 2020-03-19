@@ -13,11 +13,13 @@ if (!files.directoryExists('.git')) {
 }
 
 const run = async () => {
-  // await animate();
+  animate.startScreen();
 
   const issueKeyGuess = parser.parseIssueKey(branch.sync());
 
   const issueKey = (await inquirer.askIssueKey(issueKeyGuess)).key;
+
+  await animate.loadingScreen();
 
   const issueDetails = await jira.getIssueDetails(issueKey);
 
