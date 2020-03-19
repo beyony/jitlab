@@ -5,6 +5,7 @@ const files = require('./lib/files');
 const inquirer = require('./lib/inquirer');
 const parser = require('./lib/parser');
 const animate = require('./lib/animate');
+const jira = require('./lib/jira');
 
 if (!files.directoryExists('.git')) {
   console.log(chalk.red('No Git repository found!'));
@@ -17,6 +18,8 @@ const run = async () => {
   const issueIdGuess = parser.parseIssueID(branch.sync());
 
   const issue = await inquirer.askIssueID(issueIdGuess);
+
+  const issueData = await jira.getIssueDetails(issue.ID);
 
   const mrOptions = await inquirer.askMergeRequestOptions(issue.ID);
 

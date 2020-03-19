@@ -9,3 +9,5 @@ DONE # 2. feature: parse issue id and add to merge message
 # 3. feature: change tags of merge request with cli menu
 
 # 4. feature: move issue to next column
+
+# 5. send slack message or email if critical release blocker
