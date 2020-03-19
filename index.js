@@ -35,12 +35,9 @@ const run = async () => {
   }
 
   // ask for merge request options
-  const mrOptions = await inquirer.askMergeRequestOptions(issueDetails);
+  const mrOptions = await inquirer.askMergeRequestOptions(issueDetails.data);
 
-  console.log(issueKey);
-  console.log(mrOptions);
-
-  lab.createMergeRequest('foo');
+  lab.createMergeRequest(mrOptions);
 };
 
 run();
