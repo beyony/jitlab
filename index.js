@@ -19,9 +19,16 @@ const run = async () => {
 
   const issueKey = (await inquirer.askIssueKey(issueKeyGuess)).key;
 
-  await animate.loadingScreen();
+  const [_, issueDetails] = await Promise.all([animate.loadingScreen(), jira.getIssueDetails(issueKey)]);
 
-  const issueDetails = await jira.getIssueDetails(issueKey);
+  // custom error handling
+  if (issueDetails.error && !issueDetails.data) {
+    throw new Error(
+      'Jira Api Client has errored: ' +
+        issueDetails.error +
+        '\n this could have several reasons: \n 1. you have no internet connection \n 2. your jira api is invalid or not set in .gitconfig \n 3. you have no permission to use jira api \n 4. your issueKey is invalid '
+    );
+  }
 
   const mrOptions = await inquirer.askMergeRequestOptions(issueDetails);
 
