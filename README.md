@@ -3,6 +3,8 @@
 ### jitlab config
 
 - jira issue key: PV, HD ...
+- default mr target branch
+- gitlab labels []
 
 ### git config
 

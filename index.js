@@ -10,15 +10,28 @@ const animate = require('./lib/animate');
 const jira = require('./lib/jira');
 const lab = require('./lib/lab');
 
+const cwd = files.getCurrentDirectory();
+
 if (!files.directoryExists('.git')) {
   console.log(chalk.red('No Git repository found!'));
   process.exit();
 }
 
 const run = async () => {
+  let config;
+
+  try {
+    config = require(cwd + '/jitlab.json');
+  } catch (error) {
+    console.log(chalk.red('No jitlab.json config file in your repo found. Please a one in the root of your project.'));
+    console.log(error);
+    process.exit();
+  }
+
   animate.startScreen();
 
-  const foo = await inquirer.askTargetBranch();
+  const foo = await inquirer.askTargetBranch(config && config.mr_def_t_branch);
+  console.log('foo', foo);
 
   // guess the issue key by parsing branch name
   let issueKeyGuess;
