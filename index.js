@@ -16,6 +16,8 @@ if (!files.directoryExists('.git')) {
 const run = async () => {
   animate.startScreen();
 
+  const foo = await inquirer.askTargetBranch();
+
   // guess the issue key by parsing branch name
   const issueKeyGuess = parser.parseIssueKey(branch.sync());
 
