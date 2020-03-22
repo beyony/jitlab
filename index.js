@@ -19,7 +19,14 @@ const run = async () => {
   const foo = await inquirer.askTargetBranch();
 
   // guess the issue key by parsing branch name
-  const issueKeyGuess = parser.parseIssueKey(branch.sync());
+  let issueKeyGuess;
+  try {
+    issueKeyGuess = parser.parseIssueKey(branch.sync());
+  } catch (error) {
+    console.log(
+      chalk.red("Your current branch name doesn't contain one of your jira issue keys defined in the jitlab config.")
+    );
+  }
 
   // confirm or rectify the issue key by user
   const issueKey = (await inquirer.askIssueKey(issueKeyGuess)).key;
