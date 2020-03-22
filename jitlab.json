@@ -1,3 +1,4 @@
 {
-  "mr_def_t_branch": "develop"
+  "mr_def_t_branch": "develop",
+  "jira_board_acronyms": ["PV", "HD"]
 }

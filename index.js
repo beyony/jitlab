@@ -9,8 +9,7 @@ const parser = require('./lib/parser');
 const animate = require('./lib/animate');
 const jira = require('./lib/jira');
 const lab = require('./lib/lab');
-
-const cwd = files.getCurrentDirectory();
+const readConfig = require('./lib/readConfig');
 
 if (!files.directoryExists('.git')) {
   console.log(chalk.red('No Git repository found!'));
@@ -21,7 +20,7 @@ const run = async () => {
   let config;
 
   try {
-    config = require(cwd + '/jitlab.json');
+    config = readConfig();
   } catch (error) {
     console.log(chalk.red('No jitlab.json config file in your repo found. Please a one in the root of your project.'));
     console.log(error);
@@ -36,10 +35,12 @@ const run = async () => {
   // guess the issue key by parsing branch name
   let issueKeyGuess;
   try {
-    issueKeyGuess = parser.parseIssueKey(branch.sync());
+    issueKeyGuess = parser.parseIssueKey(branch.sync(), config.jira_board_acronyms);
   } catch (error) {
     console.log(
-      chalk.red("Your current branch name doesn't contain one of your jira issue keys defined in the jitlab config.")
+      chalk.red(
+        "Cannot parse issue key from the name of your current branch. \n Your current branch name doesn't contain one of your jira board acronyms defined in the jitlab config. Please check your config file."
+      )
     );
   }
 
