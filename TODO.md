@@ -25,3 +25,5 @@ DONE # 3. feature: change tags of merge request with cli menu
 # 9. add final output animation + link
 
 // check TODOS
+
+# 10. check other branches and mark mr as dependent !

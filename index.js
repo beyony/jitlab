@@ -3,6 +3,8 @@
 const chalk = require('chalk');
 const branch = require('git-branch');
 const parse_git_config = require('parse-git-config');
+const program = require('commander');
+const packageJson = require('./package.json');
 
 const files = require('./lib/files');
 const inquirer = require('./lib/inquirer');
@@ -19,7 +21,7 @@ if (!files.directoryExists('.git')) {
   process.exit();
 }
 
-const run = async () => {
+async function createMergeRequest(options) {
   let config;
 
   try {
@@ -90,6 +92,28 @@ const run = async () => {
   mrOptions.targetBranch = targetBranch.branch;
 
   lab.createMergeRequest(mrOptions);
-};
+}
 
-run();
+program.description('jitlab command line utility').version(packageJson.version);
+
+program
+  .command('merge-request')
+  .alias('mr')
+  .option('-t, --target [optional]', 'Target branch name')
+  .description('Create merge request on gitlab')
+  .action(function(options) {
+    createMergeRequest(options);
+  });
+
+program.on('command:*', function() {
+  console.error(('Invalid command ' + program.args[0]).red);
+  program.outputHelp();
+});
+
+program.parse(process.argv);
+
+if (program.args.length < 1) {
+  program.outputHelp();
+}
+
+module.exports = function() {};
